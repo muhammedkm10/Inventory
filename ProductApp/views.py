@@ -26,6 +26,7 @@ class ProductManagment(APIView):
             cache_key = f"item_{item_id}"
             item_data = cache.get(cache_key)
             if item_data is not None:
+                print('redis working in fetch')
                 # If item data is found in cache returning it
                 return Response(item_data, status=status.HTTP_200_OK)
             try:
@@ -40,6 +41,8 @@ class ProductManagment(APIView):
         cache_key = 'all_items'
         items = cache.get(cache_key)
         if items is not None:
+            print('redis working in fetch all items')
+            
             return Response(items,status=status.HTTP_200_OK)
         items = Products.objects.all()
         serializer = ProductSerializer(items,many=True)
@@ -51,6 +54,11 @@ class ProductManagment(APIView):
     def patch(self,request, item_id=None):
         if item_id is None:
             return Response({'error': 'Item ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # deleting all data from redis after updating
+        cache_key = f"item_{item_id}"
+        cache.delete(cache_key)
+        cache.delete('all_items')
         try:
             item = Products.objects.get(id = item_id)
         except:
@@ -67,6 +75,8 @@ class ProductManagment(APIView):
         if item_id is None:
             return Response({'error': 'Item ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
+            cache_key = f"item_{item_id}"
+            cache.delete(cache_key)
             item = Products.objects.get(id = item_id)
             item.delete()
             return Response({"success":'Item deleted successfully'},status=status.HTTP_200_OK)
