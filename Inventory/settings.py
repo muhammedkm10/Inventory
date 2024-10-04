@@ -211,5 +211,10 @@ LOGGING = {
             'level': 'DEBUG',  
             'propagate': False,
         },
+        'AuthApp': {  
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',  
+            'propagate': False,
+        },
     },
 }

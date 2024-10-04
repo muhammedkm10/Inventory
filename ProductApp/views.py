@@ -51,9 +51,6 @@ class ProductManagment(APIView):
         cache_key = 'all_items'
         items = cache.get(cache_key)
         if items is not None:
-            print('redis working in fetch all items')
-            print(items)
-            
             return Response(items,status=status.HTTP_200_OK)
         items = Products.objects.all()
         serializer = ProductSerializer(items,many=True)
