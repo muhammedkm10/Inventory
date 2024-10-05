@@ -42,7 +42,7 @@ class ProductManagment(APIView):
                 serializer = ProductSerializer(item,many=False)
                 cache.set(cache_key, serializer.data, timeout=3600)
                 logger.info(f"Fetched item ID: {item_id} from database and stored in cache.")
-                return Response(serializer.data,status=status.HTTP_302_FOUND)
+                return Response(serializer.data,status=status.HTTP_200_OK)
             except:
                 logger.error(f"Item ID: {item_id} not found.")
                 return Response({"error":"The item is not present"},status=status.HTTP_404_NOT_FOUND)
@@ -57,7 +57,8 @@ class ProductManagment(APIView):
         if serializer.data:
             cache.set(cache_key,serializer.data,timeout=3600)
             logger.info("Received GET request for all items.")
-            return Response(serializer.data,status=status.HTTP_302_FOUND)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response({"error":"The item is not present"},status=status.HTTP_404_NOT_FOUND)
     
     # updating the details
     def patch(self,request, item_id=None):
