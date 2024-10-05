@@ -83,7 +83,6 @@ class ProductViewTest(APITestCase):
     def test_update_product(self):
         headers = {'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
         response  = self.client.post(self.product_management_url,self.product_details,format = 'json',**headers)
-        print("my data",response.data)
         updated_data = {
             'name': 'Updated Product',
         }
