@@ -7,6 +7,7 @@ from .models import CustomUser
 # Create your tests here.
 
 class AuthTests(APITestCase):
+    # user setup
     def setUp(self) :
         self.registration_url = reverse("user_register")
         self.login_url = reverse('user_login')
@@ -15,7 +16,7 @@ class AuthTests(APITestCase):
             'email':"abcd@gmail.com",
             'password':"12345678q"
         }
-        
+    # testing user registraion
     def test_user_registration(self):
         response = self.client.post(self.registration_url,self.user_data,format="json")
         self.assertEqual(response.status_code,status.HTTP_201_CREATED)
@@ -23,12 +24,13 @@ class AuthTests(APITestCase):
         user = CustomUser.objects.get(email = self.user_data['email'])
         self.assertEqual(user.email ,self.user_data['email'])
         
+    # user registraion faild  
     def test_user_registration_invalid(self):
         response = self.client.post(self.registration_url,{},format="json")
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
         self.assertEqual(CustomUser.objects.count(),0)
         
-        
+    # testing user login
     def test_user_login(self):
         self.client.post(self.registration_url, self.user_data, format='json')
         login_data = {
@@ -39,6 +41,7 @@ class AuthTests(APITestCase):
         self.assertEqual(response.status_code,status.HTTP_200_OK)
         self.assertIn('token',response.data)
         
+    # testing user login invalid   
     def test_user_login_invalid(self):
         login_data = {
             "email":self.user_data['email'],

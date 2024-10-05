@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
             'username': {'required': True},
             'email': {'required': True},
         }
-    
+    # validating username
     def validate_username(self, value):
         print(value,"username")
         if not value:
@@ -18,14 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
         if not value.isalpha():
             raise serializers.ValidationError("Username should contain only alphabetic characters")
         return value
-    
+    # validate email
     def validate_email(self,value):
         if CustomUser.objects.filter(email = value).exists():
             raise serializers.ValidationError("Emails is already exists")
         return value
     
     
-    
+    # validate password
     def validate_password(self,value):
         if len(value) < 8:
             raise serializers.ValidationError("Password must be at least 8 characters long.")
@@ -35,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Password must contain at least one letter.")
         return value
     
+    # creating user
     def create(self, validated_data):
         user = CustomUser.objects.create(
             username = validated_data['username'] ,
