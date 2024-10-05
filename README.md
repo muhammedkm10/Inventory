@@ -57,19 +57,19 @@ Setup
 -----
 Clone the repository:
 -
-:- ```git clone https://github.com/muhammedkm10/Inventory```
+```git clone https://github.com/muhammedkm10/Inventory```
 
 
 Create and activate a virtual environment:
 -
 
-:- ```python -m venv env```
-:- ```source env/bin/activate ```
-:- #On Windows use ```env\Scripts\activate```
+```python -m venv env```
+```source env/bin/activate ```
+#On Windows use ```env\Scripts\activate```
 
 Install dependencies:
 -
-:- ```pip install -r requirements.txt```
+```pip install -r requirements.txt```
 
 Configure the database:
 -
@@ -78,15 +78,15 @@ Update the database settings in settings.py to match your PostgreSQL configurati
 
 Run migrations:
 -
-:- ```python manage.py migrate```
+```python manage.py migrate```
 
 Create a superuser (for admin access):
 -
-:- ```python manage.py createsuperuser```
+```python manage.py createsuperuser```
 
 Run the server:
 -
-:- ```python manage.py runserver```
+```python manage.py runserver```
 
 Use postman or any other tool to test the api and do the  crud operations.
 
